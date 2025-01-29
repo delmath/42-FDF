@@ -6,12 +6,13 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:00:48 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 14:53:35 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:19:41 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <mlx.h>
+#include <stdlib.h>
 
 int	close_window(t_scene *scene)
 {

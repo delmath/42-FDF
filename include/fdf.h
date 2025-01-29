@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 18:07:15 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/28 21:02:49 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:04:58 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define W_WIDTH			1920
 # define W_HEIGHT			1080
 
-# define PI					3.141592
+# define PI_F				3.141592
 
 # define TEXT_COLOR			0xEAEAEA
 # define INFO_COLOR			0xF3AF3D
@@ -44,7 +44,6 @@ typedef struct s_line_param
 	int	e2;
 }	t_line_param;
 
-
 typedef struct s_gradian
 {
 	int		g;
@@ -58,23 +57,22 @@ typedef struct s_gradian
 	float	t;
 }	t_gradian;
 
-
 typedef struct s_img
 {
 	void	*img_ptr;
-	char    *px_ptr;
+	char	*px_ptr;
 	int		bpp;
 	int		endian;
 	int		line_len;
-}   t_img;
+}	t_img;
 
-typedef struct	s_point_4d
+typedef struct s_point_4d
 {
 	float	x;
 	float	y;
 	float	z;
 	float	w;
-} t_point_4d;
+}	t_point_4d;
 
 typedef struct s_coord
 {
@@ -84,7 +82,7 @@ typedef struct s_coord
 	int		colors;
 }	t_coord;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	t_coord		*point_list;
 	t_coord		*map;
@@ -93,16 +91,16 @@ typedef struct	s_map
 	int			map_ratio;
 }	t_map;
 
-typedef struct  s_window_data
+typedef struct s_window_data
 {
-	int     width;
-	int     height;
-	int     x_pos;
-	int     y_pos;
-	char    *name;
-}   t_window_data;
+	int		width;
+	int		height;
+	int		x_pos;
+	int		y_pos;
+	char	*name;
+}	t_window_data;
 
-typedef	struct s_proj
+typedef struct s_proj
 {
 	float	ortho_matrix[4][4];
 	float	persp_matrix[4][4];
@@ -118,27 +116,28 @@ typedef struct s_param
 	float		z_ratio;
 	char		persp;
 	char		iso;
-	t_transform transform;
+	char		z_order;
+	t_transform	transform;
+	char		selected;
 }	t_param;
 
 typedef struct s_mouse
 {
 	int		mouse_last_x;
 	int		mouse_last_y;
-	int		mouse_click_rotation;
-	int		mouse_click_translation;
-	float	mouse_sensibility;
+	char	mouse_click_rotation;
+	char	mouse_click_translation;
+	char	mouse_click_wheel;
+	float	mouse_sensi;
 }	t_mouse;
 
-typedef	struct s_axe
+typedef struct s_axe
 {
 	float	cos_axe;
 	float	sin_axe;
-	float	cos_90;
-	float	sin_90;
 }	t_axe;
 
-typedef	struct s_clipping
+typedef struct s_clipping
 {
 	float	near;
 	float	far;
@@ -166,18 +165,18 @@ typedef struct s_camera
 	float		min_zoom;
 }	t_camera;
 
-typedef struct  t_scene
+typedef struct t_scene
 {
-	void            *mlx;
-	void            *win;
-	t_window_data   win_data;
+	void			*mlx;
+	void			*win;
+	t_window_data	win_data;
 	t_map			map;
 	t_camera		camera;
 	t_param			param;
 	t_mouse			mouse;
 	t_proj			proj;
 	char			*file;
-}   t_scene;
+}	t_scene;
 
 // listener
 int		key_hook(int keycode, t_scene *scene);
@@ -226,6 +225,7 @@ void	render_hud(t_scene *scene);
 char	*get_iso(char iso);
 char	*get_projection(char projection);
 char	*get_transform(t_transform transorm);
+char	*get_hud_value(char **actual_value, char *new_value);
 
 // matrix calc
 void	calc_ortho_matrix(t_scene *scene);

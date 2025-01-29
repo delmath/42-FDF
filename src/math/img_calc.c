@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:00:01 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 14:54:38 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:41:54 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	calc_point(t_scene *scene, int i)
 					+ W_WIDTH / 2) + 170);
 		scene->map.point_list[i].y = (int)(point[1] * scene->param.scale
 				+ W_HEIGHT / 2);
+		scene->map.point_list[i].z = 1;
 		return ;
 	}
 	if (scene->param.persp == 1)

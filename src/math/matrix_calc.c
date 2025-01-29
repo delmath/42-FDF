@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:20:13 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 14:52:19 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/29 22:14:16 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ void	calc_persp_matrix(t_scene *scene)
 	scene->proj.persp_matrix[1][3] = 0;
 	scene->proj.persp_matrix[2][0] = 0;
 	scene->proj.persp_matrix[2][1] = 0;
-	scene->proj.persp_matrix[2][2] = (scene->camera.clipping_planes.zfar
-			+ scene->camera.clipping_planes.znear)
-		/ (scene->camera.clipping_planes.znear
-			- scene->camera.clipping_planes.zfar);
-	scene->proj.persp_matrix[2][3] = 2 * scene->proj.persp_matrix[2][2];
+	scene->proj.persp_matrix[2][2] = -((scene->camera.clipping_planes.zfar
+				+ scene->camera.clipping_planes.znear)
+			/ (scene->camera.clipping_planes.zfar
+				- scene->camera.clipping_planes.znear));
+	scene->proj.persp_matrix[2][3] = -((2 * scene->camera.clipping_planes.zfar
+				* scene->camera.clipping_planes.znear)
+			/ (scene->camera.clipping_planes.zfar
+				- scene->camera.clipping_planes.znear));
 	scene->proj.persp_matrix[3][0] = 0;
 	scene->proj.persp_matrix[3][1] = 0;
 	scene->proj.persp_matrix[3][2] = -1;
