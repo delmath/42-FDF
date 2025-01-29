@@ -1,6 +1,10 @@
 NAME = fdf
 
-SRCS = main.c listener.c mlx_manager.c init_map.c exit_handler.c parsing/parsing_utils.c
+SRCS = main.c render/color.c render/render_img.c utils/exit_handler.c utils/math_utils.c \
+		utils/parsing_utils.c mlx/mlx_handler.c mlx/mlx_manager.c math/img_calc.c \
+		math/camera_calc.c math/matrix_calc.c math/transform_calc.c init/init_map.c \
+		init/init_scene.c utils/movement_utils.c utils/hud_utils.c utils/mlx_handler_utils.c \
+		render/render_hud.c mlx/mlx_handler_movement.c
 SRCS := $(addprefix src/, $(SRCS))
 OBJ_DIR = obj/
 OBJ = $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)%.o)
