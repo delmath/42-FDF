@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:45:38 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 22:38:41 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 20:28:43 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,17 @@
 static void	put_selection_arrow(void *mlx, void *win, t_scene *scene)
 {
 	if (scene->param.selected == 0)
-		mlx_string_put(mlx, win, 250, 350, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 350, INFO_COLOR, "<-");
 	if (scene->param.selected == 1)
-		mlx_string_put(mlx, win, 250, 370, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 370, INFO_COLOR, "<-");
 	if (scene->param.selected == 2)
-		mlx_string_put(mlx, win, 250, 390, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 390, INFO_COLOR, "<-");
 	if (scene->param.selected == 3)
-		mlx_string_put(mlx, win, 250, 410, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 410, INFO_COLOR, "<-");
 	if (scene->param.selected == 4)
-		mlx_string_put(mlx, win, 250, 430, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 430, INFO_COLOR, "<-");
 	if (scene->param.selected == 5)
-		mlx_string_put(mlx, win, 250, 450, COLOR_JAFFA, "<-");
-	if (scene->param.selected == 6)
-		mlx_string_put(mlx, win, 250, 470, COLOR_JAFFA, "<-");
+		mlx_string_put(mlx, win, 250, 450, INFO_COLOR, "<-");
 }
 
 static void	put_modifier_info(void *mlx, void *win, t_scene *scene)
@@ -45,6 +43,9 @@ static void	put_modifier_info(void *mlx, void *win, t_scene *scene)
 	mlx_string_put(mlx, win, 30, 110, TEXT_COLOR, "- iso enable: ");
 	mlx_string_put(mlx, win, 165, 110, INFO_COLOR,
 		get_iso(scene->param.iso));
+	mlx_string_put(mlx, win, 30, 130, TEXT_COLOR, "- color preset: ");
+	mlx_string_put(mlx, win, 165, 130, INFO_COLOR,
+		get_color_preset(scene->param.color_preset));
 }
 
 static void	put_cam_info(void *mlx, void *win, t_scene *scene, char **temp)
@@ -76,26 +77,23 @@ static void	put_cam_info(void *mlx, void *win, t_scene *scene, char **temp)
 static void	put_param_info(void *mlx, void *win, t_scene *scene, char **temp)
 {
 	mlx_string_put(mlx, win, 25, 330, TEXT_COLOR, "fdf info:");
-	mlx_string_put(mlx, win, 30, 350, TEXT_COLOR, "- z_order:");
+	mlx_string_put(mlx, win, 30, 350, TEXT_COLOR, "- z_ratio:");
 	mlx_string_put(mlx, win, 165, 350, INFO_COLOR,
-		get_hud_value(temp, ft_itoa(scene->param.z_order)));
-	mlx_string_put(mlx, win, 30, 370, TEXT_COLOR, "- z_ratio:");
-	mlx_string_put(mlx, win, 165, 370, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->param.z_ratio * 10)));
-	mlx_string_put(mlx, win, 30, 390, TEXT_COLOR, "- near:");
-	mlx_string_put(mlx, win, 165, 390, INFO_COLOR,
+	mlx_string_put(mlx, win, 30, 370, TEXT_COLOR, "- near:");
+	mlx_string_put(mlx, win, 165, 370, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->camera.clipping_planes.near)));
-	mlx_string_put(mlx, win, 30, 410, TEXT_COLOR, "- far:");
-	mlx_string_put(mlx, win, 165, 410, INFO_COLOR,
+	mlx_string_put(mlx, win, 30, 390, TEXT_COLOR, "- far:");
+	mlx_string_put(mlx, win, 165, 390, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->camera.clipping_planes.far)));
-	mlx_string_put(mlx, win, 30, 430, TEXT_COLOR, "- z_near:");
-	mlx_string_put(mlx, win, 165, 430, INFO_COLOR,
+	mlx_string_put(mlx, win, 30, 410, TEXT_COLOR, "- z_near:");
+	mlx_string_put(mlx, win, 165, 410, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->camera.clipping_planes.znear)));
-	mlx_string_put(mlx, win, 30, 450, TEXT_COLOR, "- z_far:");
-	mlx_string_put(mlx, win, 165, 450, INFO_COLOR,
+	mlx_string_put(mlx, win, 30, 430, TEXT_COLOR, "- z_far:");
+	mlx_string_put(mlx, win, 165, 430, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->camera.clipping_planes.zfar)));
-	mlx_string_put(mlx, win, 30, 470, TEXT_COLOR, "- mouse sensi:");
-	mlx_string_put(mlx, win, 165, 470, INFO_COLOR,
+	mlx_string_put(mlx, win, 30, 450, TEXT_COLOR, "- mouse sensi:");
+	mlx_string_put(mlx, win, 165, 450, INFO_COLOR,
 		get_hud_value(temp, ft_itoa(scene->mouse.mouse_sensi * 1000)));
 }
 

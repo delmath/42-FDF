@@ -5,27 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 18:07:15 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 23:04:58 by madelvin         ###   ########.fr       */
+/*   Created: 2025/01/30 18:24:31 by madelvin          #+#    #+#             */
+/*   Updated: 2025/01/30 18:26:26 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+/* ************************************************************************** */
+/*                                 DEFINE                                     */
+/* ************************************************************************** */
+
 # define W_WIDTH			1920
 # define W_HEIGHT			1080
-
 # define PI_F				3.141592
 
 # define TEXT_COLOR			0xEAEAEA
 # define INFO_COLOR			0xF3AF3D
 # define MENU_BACKGROUND	0x1E1E1E
-
 # define COLOR_DEFAULT		0x9A1F6A
 # define COLOR_ERROR		0xC2294E
-# define COLOR_FLAMINGO		0xEC4B27
-# define COLOR_JAFFA		0xEF8633
+
+/* ************************************************************************** */
+/*                              ENUMERATIONS                                  */
+/* ************************************************************************** */
 
 typedef enum e_transform
 {
@@ -34,15 +38,18 @@ typedef enum e_transform
 	SPHERE
 }	t_transform;
 
-typedef struct s_line_param
+/* ************************************************************************** */
+/*                              STRUCTURES                                    */
+/* ************************************************************************** */
+
+typedef struct s_color_preset
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
-}	t_line_param;
+	int	vlow;
+	int	low;
+	int	medium;
+	int	high;
+	int	vhigh;
+}	t_color_preset;
 
 typedef struct s_gradian
 {
@@ -56,6 +63,17 @@ typedef struct s_gradian
 	float	t_inc;
 	float	t;
 }	t_gradian;
+
+typedef struct s_line_param
+{
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			e2;
+	t_gradian	gradian;
+}	t_line_param;
 
 typedef struct s_img
 {
@@ -79,16 +97,27 @@ typedef struct s_coord
 	float	x;
 	float	y;
 	float	z;
+	float	default_z;
 	int		colors;
 }	t_coord;
 
+typedef struct s_line
+{
+	t_coord	*start;
+	t_coord	*end;
+	float	depth;
+}	t_line;
+
 typedef struct s_map
 {
-	t_coord		*point_list;
-	t_coord		*map;
-	int			map_width;
-	int			map_height;
-	int			map_ratio;
+	t_coord	*point_list;
+	t_coord	*map;
+	int		map_max_z;
+	int		map_min_z;
+	int		map_size;
+	int		map_width;
+	int		map_height;
+	int		map_ratio;
 }	t_map;
 
 typedef struct s_window_data
@@ -117,6 +146,7 @@ typedef struct s_param
 	char		persp;
 	char		iso;
 	char		z_order;
+	char		color_preset;
 	t_transform	transform;
 	char		selected;
 }	t_param;
@@ -178,73 +208,76 @@ typedef struct t_scene
 	char			*file;
 }	t_scene;
 
-// listener
+/* ************************************************************************** */
+/*                              FUNCTIONS                                     */
+/* ************************************************************************** */
+
+/* --- Event Listeners --- */
 int		key_hook(int keycode, t_scene *scene);
 int		close_window(t_scene *scene);
 
-// render
+/* --- Rendering --- */
 int		render_frame(t_scene *window);
+t_img	calcule_frame(t_scene *scene);
+void	draw_pixel(t_img img, t_coord p1, t_gradian *gradian);
+void	draw_line(t_img img, t_coord p1, t_coord p2, t_scene scene);
+void	draw_reset_button(t_img img);
+void	render_hud(t_scene *scene);
 
-// parsing
+/* --- Parsing --- */
 void	init_map(t_scene *scene);
 int		get_color(char *line);
-int		line_to_int(const char *line);
+int		get_point_color(const char *line);
 int		check_entry(int argc, char *map);
 int		is_valid_value(char *line, int i);
 
-// utils
+/* --- Utilities --- */
 int		get_abs(int x);
 int		select_value_sign(int x, int value);
+void	bresenham_algo(t_img img, t_line_param param, t_coord p1, t_coord p2);
 
-// exit
-void	exit_handler(int return_value, char	*value, t_scene *scene);
+/* --- Exit Handling --- */
+void	exit_handler(int return_value, char *value, t_scene *scene);
 
-// calcule frame
-t_img	calcule_frame(t_scene *scene);
-
-// init
+/* --- Initialization --- */
 int		init_mlx(t_scene *scene);
 void	init_scene(t_scene *scene, char *file);
 void	init_cam(t_scene *scene, int map_height, int map_width);
 
-// cam calc
+/* --- Camera Calculations --- */
 void	calc_axis_value(t_camera *cam);
 void	calc_proj_coord(t_scene *scene);
 
-// color
+/* --- Color Handling --- */
 void	init_gradiant(int color_s, int color_e, t_gradian *gradian, int d);
+void	set_color(t_coord *p1, t_scene scene);
 int		blend_colors(int color_x, int gray_color, float factor);
+void	init_color_preset(t_color_preset *preset, int c_preset);
 int		make_color(t_gradian gradian);
 
-// render
-void	draw_line(t_img img, t_coord p1, t_coord p2);
-void	draw_reset_button(t_img img);
-void	render_hud(t_scene *scene);
-
-//hud utils
+/* --- HUD Utilities --- */
 char	*get_iso(char iso);
+char	*get_color_preset(int value);
 char	*get_projection(char projection);
 char	*get_transform(t_transform transorm);
 char	*get_hud_value(char **actual_value, char *new_value);
 
-// matrix calc
+/* --- Matrix Calculations --- */
 void	calc_ortho_matrix(t_scene *scene);
 void	calc_persp_matrix(t_scene *scene);
 void	multiply_matrix_vector_4d(float matrix[4][4], float p[4]);
 void	multiply_matrix_vector_3d(float matrix[3][3], float p[4]);
 
-// mlx hanler utils
+/* --- Mouse & Movement Handlers --- */
 int		mouse_down(int keycode, int x, int y, t_scene *scene);
 int		mouse_up(int keycode, int x, int y, t_scene *scene);
 int		mouse_move(int x, int y, t_scene *scene);
 void	select_movement(int keycode, t_scene *scene);
-
-// movement
 void	rotate(int x, int y, t_scene *scene);
 void	translate(int x, int y, t_scene *scene);
 void	zoom(t_scene *scene, int direction);
 
-// transformation
+/* --- Transformations --- */
 void	transform_to_spherical(float vector[4], t_scene *scene, int i);
 void	transform_to_torus(float vector[4], t_scene *scene, int i);
 

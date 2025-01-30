@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:12:26 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 18:04:58 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:15:12 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,17 +100,21 @@ void	init_map(t_scene *scene)
 {
 	int		fd;
 
+	scene->map.point_list = NULL;
+	scene->map.map = NULL;
 	scene->map.map_height = 0;
 	scene->map.map_width = 0;
 	get_map_size(&scene->map.map_width, &scene->map.map_height, scene->file);
-	scene->map.map_ratio = scene->map.map_width / scene->map.map_height;
-	fd = open(scene->file, O_RDONLY);
-	if (fd < 0)
+	if (scene->map.map_height == 0 || scene->map.map_width == 0)
 		return ;
-	scene->map.map = malloc(sizeof(t_coord)
-			* (scene->map.map_width * scene->map.map_height));
+	scene->map.map_ratio = scene->map.map_width / scene->map.map_height;
+	scene->map.map_size = scene->map.map_width * scene->map.map_height;
+	scene->map.map = malloc(sizeof(t_coord) * scene->map.map_size);
 	if (!scene->map.map)
 		return ;
+	fd = open(scene->file, O_RDONLY);
+	if (fd < 0)
+		exit_handler(1, scene->file, scene);
 	get_all_point(fd, scene);
 	close(fd);
 }

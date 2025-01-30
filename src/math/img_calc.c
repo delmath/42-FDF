@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:00:01 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 22:41:54 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:47:23 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	apply_cam_and_transform(float point[4], t_scene *scene, int i)
 	add_transform(point, scene, i);
 	multiply_matrix_vector_3d(scene->camera.axes_matrix, point);
 	scene->map.point_list[i].colors = scene->map.map[i].colors;
+	scene->map.point_list[i].default_z = scene->map.map[i].z
+		* scene->param.z_ratio;
+	if ((scene->map.map[i].z * scene->param.z_ratio) > scene->map.map_max_z)
+		scene->map.map_max_z = (scene->map.map[i].z * scene->param.z_ratio);
+	if ((scene->map.map[i].z * scene->param.z_ratio) < scene->map.map_min_z)
+		scene->map.map_min_z = (scene->map.map[i].z * scene->param.z_ratio);
 }
 
 void	calc_point(t_scene *scene, int i)
@@ -74,6 +80,8 @@ void	calc_all_point_projection(t_scene *scene, t_img img)
 
 	line_len = scene->map.map_width;
 	map_len = line_len * scene->map.map_height;
+	scene->map.map_max_z = -2147483648;
+	scene->map.map_min_z = 2147483647;
 	i = -1;
 	while (++i < W_HEIGHT * 300)
 		*((unsigned int *)(((img.line_len * (i / 300)) + ((i % 300) * img.bpp))
@@ -86,14 +94,14 @@ void	calc_all_point_projection(t_scene *scene, t_img img)
 	{
 		if (i % line_len < line_len - 1)
 			draw_line(img, scene->map.point_list[i],
-				scene->map.point_list[i + 1]);
+				scene->map.point_list[i + 1], *scene);
 		if (i + line_len < map_len)
 			draw_line(img, scene->map.point_list[i],
-				scene->map.point_list[i + line_len]);
+				scene->map.point_list[i + line_len], *scene);
 	}
 }
 
-t_img	calcule_frame(t_scene *scene) // ajoute le z order
+t_img	calcule_frame(t_scene *scene)
 {
 	t_img	img;
 

@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:18:55 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/28 19:58:58 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:20:42 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exit_handler(int return_value, char	*value, t_scene *scene)
 		free(scene->map.map);
 	if (return_value > 0 && !value)
 		perror("FDF ERROR: ");
-	else if (return_value > 0)
+	else if (return_value > 0 && value)
 	{
 		ft_putstr_fd("FDF ERROR: ", 2);
 		perror(value);

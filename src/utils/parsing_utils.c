@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:48:26 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 14:47:54 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:26:31 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_entry(int argc, char *map)
 	return (0);
 }
 
-int	line_to_int(const char *line)
+int	get_point_color(const char *line)
 {
 	int	result;
 	int	value;
@@ -54,7 +54,7 @@ int	get_color(char *line)
 	while (*line && *line != ',' && *line != ' ')
 		line++;
 	if ((ft_strncmp(line, ",0x", 3) == 0) || (ft_strncmp(line, ",0X", 3) == 0))
-		return (line_to_int(line + 3));
+		return (get_point_color(line + 3));
 	return (COLOR_ERROR);
 }
 

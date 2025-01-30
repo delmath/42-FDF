@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:08:48 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 23:05:34 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 19:12:40 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	init_scene(t_scene *scene, char *file)
 {
 	scene->file = file;
 	init_map(scene);
+	if (scene->map.map_height == 0 || scene->map.map_width == 0)
+		exit_handler(1, file, scene);
 	init_cam(scene, scene->map.map_height, scene->map.map_width);
 	init_proj(&scene->proj, scene->map.map_width);
 	init_mouse(&scene->mouse);
@@ -84,6 +86,7 @@ void	init_scene(t_scene *scene, char *file)
 	scene->param.z_order = 0;
 	scene->param.selected = 0;
 	scene->param.transform = DEFAULT;
+	scene->param.color_preset = 4;
 	scene->param.scale = (W_WIDTH / (scene->camera.distance / 10)
 			/ sqrt(scene->map.map_height * scene->map.map_width));
 	calc_ortho_matrix(scene);

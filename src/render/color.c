@@ -6,26 +6,26 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:16:37 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/28 16:58:26 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 19:36:42 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 int	blend_colors(int color_x, int gray_color, float factor)
 {
-	t_gradian	gradian;
+	int	r;
+	int	g;
+	int	b;
 
-	gradian.r = (color_x >> 16) & 0xFF;
-	gradian.g = (color_x >> 8) & 0xFF;
-	gradian.b = color_x & 0xFF;
-	gradian.temp_r = (int)(gradian.r * factor + ((gray_color >> 16) & 0xFF)
-			* (1.0f - factor));
-	gradian.temp_g = (int)(gradian.g * factor + ((gray_color >> 8) & 0xFF)
-			* (1.0f - factor));
-	gradian.temp_b = (int)(gradian.b * factor + (gray_color & 0xFF)
-			* (1.0f - factor));
-	return ((gradian.temp_r << 16) | (gradian.temp_g << 8) | gradian.temp_b);
+	r = (color_x >> 16) & 0xFF;
+	g = (color_x >> 8) & 0xFF;
+	b = color_x & 0xFF;
+	r = (int)(r * factor + ((gray_color >> 16) & 0xFF) * (1.0f - factor));
+	g = (int)(g * factor + ((gray_color >> 8) & 0xFF) * (1.0f - factor));
+	b = (int)(b * factor + (gray_color & 0xFF) * (1.0f - factor));
+	return ((r << 16) | (g << 8) | b);
 }
 
 void	init_gradiant(int color_s, int color_e, t_gradian *gradian, int d)
@@ -48,12 +48,7 @@ void	init_gradiant(int color_s, int color_e, t_gradian *gradian, int d)
 
 int	make_color(t_gradian gradian)
 {
-	int	r;
-	int	g;
-	int	b;
-
-	r = gradian.r + (int)(gradian.t * gradian.temp_r);
-	g = gradian.g + (int)(gradian.t * gradian.temp_g);
-	b = gradian.b + (int)(gradian.t * gradian.temp_b);
-	return ((r << 16) | (g << 8) | b);
+	return (((gradian.r + (int)(gradian.t * gradian.temp_r)) << 16) |
+		((gradian.g + (int)(gradian.t * gradian.temp_g)) << 8) |
+		(gradian.b + (int)(gradian.t * gradian.temp_b)));
 }

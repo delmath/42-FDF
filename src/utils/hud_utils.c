@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:53:57 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 22:43:45 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:32:52 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ char	*get_transform(t_transform transorm)
 		return ("torus");
 	if (transorm == SPHERE)
 		return ("sphere");
+	return ("none");
+}
+
+char	*get_color_preset(int value)
+{
+	if (value == 0)
+		return ("earth");
+	if (value == 1)
+		return ("volcanic");
+	if (value == 2)
+		return ("arctic");
+	if (value == 3)
+		return ("martian");
 	return ("none");
 }
 

@@ -6,11 +6,12 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 14:16:57 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 23:02:41 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:52:25 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 void	draw_reset_button(t_img img)
 {
@@ -55,7 +56,7 @@ static void	init_line_params(t_coord p1, t_coord p2, t_line_param *param)
 	param->err = param->dx - param->dy;
 }
 
-static void	draw_pixel(t_img img, t_coord p1, t_gradian *gradian)
+void	draw_pixel(t_img img, t_coord p1, t_gradian *gradian)
 {
 	if (p1.x >= 0 && p1.x < W_WIDTH && p1.y >= 0 && p1.y < W_HEIGHT)
 	{
@@ -70,31 +71,18 @@ static void	draw_pixel(t_img img, t_coord p1, t_gradian *gradian)
 	}
 }
 
-void	draw_line(t_img img, t_coord p1, t_coord p2)
+void	draw_line(t_img img, t_coord p1, t_coord p2, t_scene scene)
 {
 	t_line_param	param;
-	t_gradian		gradian;
 
 	if (is_in_screen(p1.x, p1.y, p2.x, p2.y) || p1.z < 0 || p2.z < 0)
 		return ;
-	init_line_params(p1, p2, &param);
-	init_gradiant(p1.colors, p2.colors, &gradian, param.dx + param.dy);
-	while (1)
+	if (scene.param.color_preset != 4)
 	{
-		draw_pixel(img, p1, &gradian);
-		if (p1.x == p2.x && p1.y == p2.y)
-			break ;
-		param.e2 = param.err * 2;
-		if (param.e2 > -param.dy)
-		{
-			param.err -= param.dy;
-			p1.x += param.sx;
-		}
-		if (param.e2 < param.dx)
-		{
-			param.err += param.dx;
-			p1.y += param.sy;
-		}
-		gradian.t += gradian.t_inc;
+		set_color(&p2, scene);
+		set_color(&p1, scene);
 	}
+	init_line_params(p1, p2, &param);
+	init_gradiant(p1.colors, p2.colors, &param.gradian, param.dx + param.dy);
+	bresenham_algo(img, param, p1, p2);
 }
