@@ -104,7 +104,7 @@ void	calc_all_point_projection(t_scene *scene, t_img img)
 
 t_img	calcule_frame(t_scene *scene)
 {
-		ft_bzero(scene->img.px_ptr, scene->win_data.width *  scene->win_data.height * (scene->img.bpp));
+	ft_bzero(scene->img.px_ptr, scene->win_data.width *  scene->win_data.height * (scene->img.bpp));
 	calc_all_point_projection(scene, scene->img);
 	draw_reset_button(scene->img);
 	mlx_put_image_to_window(scene->mlx, scene->win, scene->img.img_ptr, 0, 0);
