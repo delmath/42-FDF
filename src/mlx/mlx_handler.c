@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: madelvin <madelvin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:00:48 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/29 22:19:41 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:51:43 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int	close_window(t_scene *scene)
 
 int	render_frame(t_scene *scene)
 {
-	t_img	img;
-
-	img = calcule_frame(scene);
+	calcule_frame(scene);
 	render_hud(scene);
-	mlx_destroy_image(scene->mlx, img.img_ptr);
 	return (0);
 }

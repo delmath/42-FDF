@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   img_calc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: madelvin <madelvin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 22:00:01 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/30 17:47:23 by madelvin         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:48:34 by madelvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "libft.h"
 #include <mlx.h>
 
 void	add_transform(float point[4], t_scene *scene, int i)
@@ -103,15 +104,9 @@ void	calc_all_point_projection(t_scene *scene, t_img img)
 
 t_img	calcule_frame(t_scene *scene)
 {
-	t_img	img;
-
-	img.img_ptr = mlx_new_image(scene->mlx, scene->win_data.width,
-			scene->win_data.height);
-	img.px_ptr = mlx_get_data_addr(img.img_ptr, &img.bpp,
-			&img.line_len, &img.endian);
-	img.bpp /= 8;
-	calc_all_point_projection(scene, img);
-	draw_reset_button(img);
-	mlx_put_image_to_window(scene->mlx, scene->win, img.img_ptr, 0, 0);
-	return (img);
+		ft_bzero(scene->img.px_ptr, scene->win_data.width *  scene->win_data.height * (scene->img.bpp));
+	calc_all_point_projection(scene, scene->img);
+	draw_reset_button(scene->img);
+	mlx_put_image_to_window(scene->mlx, scene->win, scene->img.img_ptr, 0, 0);
+	return (scene->img);
 }
