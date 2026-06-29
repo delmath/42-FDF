@@ -6,7 +6,7 @@
 /*   By: madelvin <madelvin@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 18:24:31 by madelvin          #+#    #+#             */
-/*   Updated: 2025/01/30 18:26:26 by madelvin         ###   ########.fr       */
+/*   Updated: 2026/06/29 16:52:39 by madelvin         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ typedef struct t_scene
 	t_mouse			mouse;
 	t_proj			proj;
 	char			*file;
+	t_img 			img;
 }	t_scene;
 
 /* ************************************************************************** */
