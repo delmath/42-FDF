@@ -1,0 +1,11 @@
+# binaire compile
+/fdf
+
+# objets
+/obj/
+/libft/obj/
+/libft/libft.a
+
+# bibliotheques minilibx generees
+/minilibx-linux/libmlx.a
+/minilibx-linux/libmlx_Linux.a
